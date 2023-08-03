@@ -1,0 +1,3 @@
+gdal_translate -ot Int16 pegasus_1m_pre.tif pegasus_1m.tif
+
+gdal_edit.py -a_srs EPSG:31982 MDS_Pegasus_registrada_1m.tif
