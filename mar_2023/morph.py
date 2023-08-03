@@ -78,14 +78,16 @@ for matrix,outpath in ((out_img,outpath),
     
 
     
-    matrix = np.int16(matrix*10)
+    # matrix = np.int16(matrix*10)
 
     np_to_gdal(matrix,mdata_dict,outpath,use_zero_nodata=True)
 
-    outpath_4326 = outpath.replace('.tiff','_4326.tiff')
+    print(matrix.shape)
+
+    outpath_4326 = outpath.replace('.tiff','_4326_2.tiff')
     subprocess.run(f'gdalwarp -r cubic -overwrite -srcnodata 890 -t_srs EPSG:4326 {outpath} {outpath_4326}',shell=True)
 
-    outpath_4m = outpath_4326.replace('.tiff','_4m.tiff')
+    outpath_4m = outpath_4326.replace('.tiff','_4m_2.tiff')
     subprocess.run(f'gdalwarp -r cubic -overwrite -srcnodata 890 -tr {four_m_degrees} {four_m_degrees} {outpath_4326} {outpath_4m}',shell=True)
 # np_to_gdal(out_img,mdata_dict,outpath,use_zero_nodata=True)
 # np_to_gdal(dilated_img,mdata_dict,out_morph,use_zero_nodata=True)
