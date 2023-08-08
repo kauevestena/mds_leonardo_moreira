@@ -18,7 +18,7 @@ out_fillers = 'fillers_1m_x10.tiff'
 
 inpainted_outpath = 'inpainted_1m_x10.tiff'
 
-four_m_degrees = 0.000039718427608012104
+four_m_degrees = 4 #0.000039718427608012104
 
 for path in[outpath,out_morph,out_mask,out_fillers,inpainted_outpath]:
     remove_if_exists2(path)
@@ -70,25 +70,25 @@ only_filled = cv2.bitwise_and(dilated_img,dilated_img,mask=mask)
 out_img = cv2.max(img,only_filled)
 
 for matrix,outpath in ((out_img,outpath),
-                     (dilated_img,out_morph),
-                     (mask,out_mask),
-                     (only_filled,out_fillers),
-                     (inpaint,inpainted_outpath),
+                    #  (dilated_img,out_morph),
+                    #  (mask,out_mask),
+                    #  (only_filled,out_fillers),
+                    #  (inpaint,inpainted_outpath),
                      ):
     
 
     
-    # matrix = np.int16(matrix*10)
+    matrix = np.int16(matrix*10)
 
     np_to_gdal(matrix,mdata_dict,outpath,use_zero_nodata=True)
 
     print(matrix.shape)
 
-    outpath_4326 = outpath.replace('.tiff','_4326_2.tiff')
-    subprocess.run(f'gdalwarp -r cubic -overwrite -srcnodata 890 -t_srs EPSG:4326 {outpath} {outpath_4326}',shell=True)
+    outpath_31982 = outpath.replace('.tiff','_31982_VAI.tiff')
+    subprocess.run(f'gdalwarp -r cubic -overwrite -srcnodata 890 -t_srs EPSG:31982 {outpath} {outpath_31982}',shell=True)
 
-    outpath_4m = outpath_4326.replace('.tiff','_4m_2.tiff')
-    subprocess.run(f'gdalwarp -r cubic -overwrite -srcnodata 890 -tr {four_m_degrees} {four_m_degrees} {outpath_4326} {outpath_4m}',shell=True)
+    outpath_4m = outpath_31982.replace('.tiff','_4m_VAI.tiff')
+    subprocess.run(f'gdalwarp -r cubic -overwrite -srcnodata 890 -tr {four_m_degrees} {four_m_degrees} {outpath_31982} {outpath_4m}',shell=True)
 # np_to_gdal(out_img,mdata_dict,outpath,use_zero_nodata=True)
 # np_to_gdal(dilated_img,mdata_dict,out_morph,use_zero_nodata=True)
 # np_to_gdal(mask,mdata_dict,out_mask,use_zero_nodata=True)

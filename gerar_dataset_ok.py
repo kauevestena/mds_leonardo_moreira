@@ -5,8 +5,8 @@ from rasterio.crs import CRS
 import os
 
 def split_images(src_path_hr, src_path_lr, dst_path_hr, dst_path_lr, tile_size_hr, tile_size_lr, overlap):
-    crs_hr = CRS.from_epsg(4326)  # Defina o EPSG correto para o CRS da imagem de alta resolução
-    crs_lr = CRS.from_epsg(4326)  # Defina o EPSG correto para o CRS da imagem de baixa resolução
+    crs_hr = CRS.from_epsg(31982)  # Defina o EPSG correto para o CRS da imagem de alta resolução
+    crs_lr = CRS.from_epsg(31982)  # Defina o EPSG correto para o CRS da imagem de baixa resolução
 
     with rasterio.open(src_path_hr, crs=crs_hr) as src_hr, rasterio.open(src_path_lr, crs=crs_lr) as src_lr:
         profile_hr = src_hr.profile
@@ -75,8 +75,8 @@ def split_images(src_path_hr, src_path_lr, dst_path_hr, dst_path_lr, tile_size_h
 os.makedirs('hr')
 os.makedirs('lr')
 # Example usage
-src_path_hr = 'rasteres_finais_kaue/pegasus_1m.tiff'
-src_path_lr = 'rasteres_finais_kaue/pegasus_4m.tiff'
+src_path_hr = 'RASTERES_0808/1mx10.tiff'
+src_path_lr = 'RASTERES_0808/4mx10.tiff'
 dst_path_hr = 'hr/high_{}_{}.tif'
 dst_path_lr = 'lr/low_{}_{}.tif'
 tile_size_hr = 156 # for high resolution, 39 for low resolution
